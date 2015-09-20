@@ -2,7 +2,7 @@
 date = "2015-09-12T22:01:13+03:00"
 draft = false
 title = "True fail-fast async error handling with Expression"
-
+slug = "291279-true-fail-fast-with-expression-magic"
 +++
 
 How it was said in the previous [article](http://koff.io/posts/290071-make-async-with-scalaz-either-and-futures) there is no way to do truly fail-fast async error handling using only scala or scalaz.

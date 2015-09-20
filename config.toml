@@ -1,5 +1,5 @@
 # hostname (and path) to the root eg. http://spf13.com/
-baseurl = "http://www.example.com"
+baseurl = "http://coffius.github.io/"
 
 # Site title
 title = "KOFF.io"
@@ -25,8 +25,8 @@ paginatePath = "page"
 disqusShortname = "koff-io"
 
 [permalinks]
-    post = "/:year/:month/:day/:slug/"
-    code = "/:slug/"
+    post = "/posts/:slug"
+    code = "/:slug"
 
 [taxonomies]
     tag = "tags"

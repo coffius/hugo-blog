@@ -2,7 +2,7 @@
 date = "2015-09-19T22:01:13+03:00"
 draft = false
 title = "Lens in scala"
-
+slug = "292173-lens-in-scala"
 +++
 
 

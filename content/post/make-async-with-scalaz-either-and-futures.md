@@ -2,6 +2,7 @@
 date = "2015-09-05T22:01:13+03:00"
 draft = false
 title = "Practical Scalaz: Make async operations with scalaz.Either and Futures"
+slug = "290071-make-async-with-scalaz-either-and-futures"
 +++
 
 Many of us know about such library as scalaz. For those who don't know it is a library for functional programming in scala. You can find it [here](https://github.com/scalaz/scalaz "Scalaz on github"). 
