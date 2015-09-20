@@ -1,0 +1,80 @@
+# hostname (and path) to the root eg. http://spf13.com/
+baseurl = "http://www.example.com"
+
+# Site title
+title = "KOFF.io"
+
+# Copyright
+copyright = "(c) 2015"
+
+# Language
+languageCode = "en-EN"
+
+# Metadata format
+# "yaml", "toml", "json"
+metaDataFormat = "yaml"
+
+# Theme to use (located in /themes/THEMENAME/)
+theme = "hyde-y"
+
+# Pagination
+paginate = 10
+paginatePath = "page"
+
+# Enable Disqus integration
+disqusShortname = "koff-io"
+
+[permalinks]
+    post = "/:year/:month/:day/:slug/"
+    code = "/:slug/"
+
+[taxonomies]
+    tag = "tags"
+    topic = "topics"
+
+[author]
+    name = "coffius"
+    email = ""
+
+#
+# All parameters below here are optional and can be mixed and matched.
+#
+[params]
+    # You can use markdown here.
+    brand = "KOFF.io"
+    topline = "where scala is beloved"
+    footline = "code with <i class='fa fa-heart'></i>"
+
+    # Sidebar position
+    # false, true, "left", "right"
+    sidebar = "left"
+
+    # Text for the top menu link, which goes the root URL for the site.
+    # Default (if omitted) is "Home".
+    home = "Home"
+
+    # Select a syntax highight.
+    # Check the static/css/highlight directory for options.
+    highlight = "default"
+
+    # Google Analytics.
+    googleAnalytics = "UA-66345345-1"
+
+    # Sidebar social links.
+	googleplus = "102671541320733671208" # Your Google+ profile ID
+    github = "coffius" # Your Github profile ID
+    bitbucket = "" # Your Bitbucket profile ID
+    linkedin = "" # Your LinkedIn profile ID (from public URL)    
+    facebook = "" # Your Facebook profile ID
+    twitter = "coffius" # Your Twitter profile ID
+    youtube = ""  # Your Youtube channel ID
+    flattr = ""  # populate with your flattr uid
+
+[blackfriday]
+    angledQuotes = true
+    fractions = false
+    hrefTargetBlank = false
+    latexDashes = true
+    plainIdAnchors = true
+    extensions = []
+    extensionmask = []
