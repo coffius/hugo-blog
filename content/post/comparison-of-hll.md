@@ -9,10 +9,9 @@ In this article we will look at HLL algorithm and different implementations of i
 
 ## General Info
 
-HLL is propabalistic algorithm which is used for estimation of unique values. 
+HLL is a propabalistic algorithm which is used for a estimation of unique values. 
 More details about HLL you can get [here](https://en.wikipedia.org/wiki/HyperLogLog "Wikipedia:HyperLogLog").
-The main reason to use HLL is necessity to estimate uniques in very big amount of data 
-in case if it is possible to sacrifice accuracy of an unique counter.
+The main reason to use HLL is necessity to estimate uniques in very big amount of data in case if it is possible to sacrifice accuracy of an unique counter.
 
 ## List of implementations
 
@@ -22,12 +21,12 @@ You can find several implementations of HLL:
 * [prasanthj/hyperloglog](https://github.com/prasanthj/hyperloglog "prasanthj/hyperloglog") - a detached java library for HLL 
 * [addthis/stream-lib](https://github.com/addthis/stream-lib "addthis/stream-lib") - another java lib which have an implementation of HLL.
 
-Next in this article we will take a close look at all these libs and ask the question: "Why should we use HLL?".
+Next in this article we will take a close look at all these libs and answer the question: "Why should we use HLL?".
 
 <!--more-->
 
 ## Example of use
-So why should we use HLL in our programs? In our company the main reason is reducing of data which we have to store.
+So why should we might use HLL in our programs? The main reason is reducing of data which we have to store.
 
 For example you need to count the number of unique visitors for every page on a site. You can use a structure like this:
 
@@ -36,7 +35,7 @@ case class PageVisitors(pageUrl: String, visitors: Set[UUID])
 ```
 
 And it will work until you have a lot of pages and very many visitors on each page.
-For instance let`s assume that we have an analytic system which work with visit statistic of different sites. If we have 1000 pretty popular sites and because sites are popular each site have about 100000 unique visitors per day. 
+For instance let`s assume that we have an analytic system which work with visit statistic of different sites. Suppose we have 1000 pretty popular sites and because sites are popular each site have about 100000 unique visitors per day. 
 We also want to save statistic of unique visitors per day for each site at least one year. We mark visitors using UUID - 128 bits identifier.
 
 ```
@@ -52,14 +51,14 @@ one UUID = 128 bits = 16 bytes per unique visitor
 556 Mbyte * 1000 = 556 Gbyte of total data
 ```
 
-But if we are ready to sacrifice accuracy a little bit we will considerably reduce amount of stored data. Usage of HLL instead of Set[UUID] allow us to use constant amount of memory.
+But if we are ready to sacrifice accuracy a little bit we will considerably reduce amount of stored data.
 For example if we use `prasanthj/hyperloglog` to store unique counter `16Kbytes` will be enough to store `10.000.000` unique values only with `~0.52%` of error.
 
 ```
 16Kbyte per site * 365 days * 1000 sites = 5.5Gbyte of total data
 ```
 
-We will reduce needed size of data a hundredfold if we agree with 0.52% of error.
+We will reduce the needed size of data a hundredfold if we agree with 0.52% of error.
 
 ## twitter/algebird
 
@@ -98,7 +97,7 @@ object SimpleAlgebirdExample {
 It is a java library containing only an implementation of `HyperLogLog`. 
 There is no a maven artefact for this library, so you can build it manually or use [jitpack.io](https://jitpack.io/ "jitpack.io") as it was described at the end of [this article](http://koff.io/posts/291279-true-fail-fast-with-expression-magic).
 
-Also it contains command line test tool which can help to choose settings for HLL and to see how accurate estimation will be. In order to use it you should build  the library locally using `maven` and execute `hll` script.
+Also it contains a command line test tool which can help to choose settings for HLL and to see how accurate estimation will be. In order to use it you should build  the library locally using `maven` and execute `hll` script.
 
 ```bash
 # clone repo
