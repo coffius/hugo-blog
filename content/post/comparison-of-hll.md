@@ -20,6 +20,7 @@ You can find several implementations of HLL:
 * [twitter/algebird](https://github.com/twitter/algebird "twitter/algebird") - a scala library from twitter which contains lots of different algorithms including HLL
 * [prasanthj/hyperloglog](https://github.com/prasanthj/hyperloglog "prasanthj/hyperloglog") - a detached java library for HLL 
 * [addthis/stream-lib](https://github.com/addthis/stream-lib "addthis/stream-lib") - another java lib which have an implementation of HLL.
+* [aggregateknowledge/java-hll](https://github.com/aggregateknowledge/java-hll "java-hll") - a low-level java implementation of HLL
 
 Next in this article we will take a close look at all these libs and answer the question: "Why should we use HLL?".
 
@@ -187,6 +188,42 @@ object SimpleStreamExample {
 }
 ```
 
+## aggregateknowledge/java-hll
+This is a low-level java implementation of a hll counter. The main principle is the same but you have to define and to use your own hash function(`murmur3_128` in the example below)
+
+Simple example:
+
+```scala
+object SimpleAgknHllExample {
+  import net.agkn.hll.HLL
+  import com.google.common.hash.Hashing
+
+  private val seed = 123456
+  /** use murmur3 hash function from `com.google.common.hash`*/
+  private val hash = Hashing.murmur3_128(seed)
+
+  def main(args: Array[String]) {
+    //define test data
+    val data = Seq("aaa", "bbb", "ccc")
+
+    //create hll object in which we will merge our data with default values of params
+    val hll = new HLL(13, 5)
+
+    //add data to the hll counter
+    data.foreach(str => hll.addRaw(toHash(str)))
+
+    println("estimate count: " + hll.cardinality())
+  }
+
+  def toHash(str: String): Long = {
+    val hasher = hash.newHasher()
+    //As always we set encoding explicitly
+    hasher.putBytes(str.getBytes("utf-8"))
+    hasher.hash().asLong()
+  }
+}
+```
+
 ## Bonus: Intersection of HLLs
 It is possible to make intersections of HLL counters in order to find the number of common elements in them. Such logic is implemented in `twitter/algebird` [here](https://github.com/twitter/algebird/blob/develop/algebird-core/src/main/scala/com/twitter/algebird/HyperLogLog.scala#L601).
 The main underlying principle in this algorithm is ["Inclusion–exclusion principle"](https://en.wikipedia.org/wiki/Inclusion%E2%80%93exclusion_principle). 
@@ -223,9 +260,10 @@ I have also written a little test which compares described libraries. You can fi
 Results you can see below:
 
 ```
-algebird	[error: 0,007217%, calcTime: 8445 msecs, estimateCount: 992784, dataSize: 65536 bytes]
-prasanthj	[error: 0,003138%, calcTime: 559  msecs, estimateCount: 996863, dataSize: 10247 bytes]
-stream		[error: 0,002794%, calcTime: 293  msecs, estimateCount: 997207, dataSize: 43702 bytes]
+algebird	[error: 0,000758%,  calcTime: 8547 msecs, estimateCount: 999243,  dataSize: 65536 bytes]
+prasanthj	[error: -0,003540%, calcTime: 643 msecs,  estimateCount: 1003541, dataSize: 10247 bytes]
+stream		[error: -0,001181%, calcTime: 294 msecs,  estimateCount: 1001182, dataSize: 43702 bytes]
+agkn-hll	[error: 0,003895%,  calcTime: 508 msecs,  estimateCount: 996106,  dataSize: 40963 bytes]
 ```
 
 So as you can see:
@@ -233,6 +271,7 @@ So as you can see:
 * `twitter/algebird` has showed itself as quite a slow library. It can be a problem if you work with big data.
 * `prasanthj/hyperloglog` always needs minimal space to store serialized data of HLL counter.
 * `addthis/stream-lib` is the fastest library in those that we have looked at.
+* `aggregateknowledge/java-hll`(last row) is average. Not too slow, but also not super-fast, average data size.
 
 ## Links
 
@@ -240,4 +279,5 @@ So as you can see:
 * [twitter/algebird](https://github.com/twitter/algebird "twitter/algebird") - a scala library from twitter which contains lots of different algorithms including HLL
 * [prasanthj/hyperloglog](https://github.com/prasanthj/hyperloglog "prasanthj/hyperloglog") - a detached java library for HLL 
 * [addthis/stream-lib](https://github.com/addthis/stream-lib "addthis/stream-lib") - another java lib which have an implementation of HLL.
+* [aggregateknowledge/java-hll](https://github.com/aggregateknowledge/java-hll "aggregateknowledge/java-hll") - a low-level java implementation of HLL
 * [HLL Intersections](http://research.neustar.biz/2012/12/17/hll-intersections-2/) - an article about accuracy of the HLL`s intersections.
